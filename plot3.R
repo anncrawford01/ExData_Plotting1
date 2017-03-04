@@ -26,19 +26,17 @@ twodays$DT <- strptime(paste(twodays$Date, twodays$Time),"%Y-%m-%d %H:%M:%S")
 
 ## library(lattice)
 ## subgroups in a plot
+##install.packages('reshape2')
+##library(reshape2)
+
+m1 <- select(twodays, DT, Sub_metering_1, Sub_metering_2, Sub_metering_3)
+melted <- melt(m1, id.vars=c("DT") , na.rm = TRUE)
 
 
-m1<- twodays %>% select(DT, metervalue = Sub_metering_1 ) 
-m2 <-  twodays %>% select(DT, metervalue = Sub_metering_2 ) 
-m3 <-  twodays %>% select(DT, metervalue = Sub_metering_3 ) 
-
-metering <- rbind(m1, m2, m2 )   
-
-with(metering, plot(DT,metervalue, ylab = "Energy sub metering", pch = NA, xlab = NA, type = n) )  ## plot with no data
-#lines(twodays$DT,twodays$Global_active_power)
-lines(metering$DT[1:2880], metering$metervalue[1:2880], col = "black") 
-lines(metering$DT[2881:5761], metering$metervalue[2881:5761], col = "red")
-lines(metering$DT[5762:8640], metering$metervalue[5762:8640], col = "blue")
+with(melted, plot(DT,value, ylab = "Energy sub metering", pch = NA, xlab = NA, type = n) )  ## plot with no data
+lines(melted$DT[melted$variable == "Sub_metering_1"], melted$value[melted$variable == "Sub_metering_1"], col = "black") 
+lines(melted$DT[melted$variable == "Sub_metering_2"], melted$value[melted$variable == "Sub_metering_2"], col = "red") 
+lines(melted$DT[melted$variable == "Sub_metering_3"], melted$value[melted$variable == "Sub_metering_3"], col = "blue") 
 
   
 
