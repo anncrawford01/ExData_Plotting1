@@ -22,23 +22,24 @@ twodays = filter(powerdata, Date == "1/2/2007" | Date == "2/2/2007")
 
 ## convert the Date and Time variables to Date/Time classes in R using the strptime() and as.Date() functions.
 twodays$Date <- as.Date(twodays$Date, format="%d/%m/%Y")
-twodays$DT <- strptime(paste(twodays$Date, twodays$Time),"%Y-%m-%d %H:%M:%S")
+twodays$DT <- strptime(paste(twodays$Date, twodays$Time),"%Y-%m-%d %H:%M:%S")  ## melted does not work with "POSIXlt"
 
-## library(lattice)
-## subgroups in a plot
+
+
 ##install.packages('reshape2')
 ##library(reshape2)
 
-m1 <- select(twodays, DT, Sub_metering_1, Sub_metering_2, Sub_metering_3)
-melted <- melt(m1, id.vars=c("DT") , na.rm = TRUE)
+## count nas sapply(twodays, function(x) sum(is.na(x)))  -- none found
+
+m1 <- select(twodays, Date, Time, Sub_metering_1, Sub_metering_2, Sub_metering_3)
+melted <- melt(m1, id.vars=c("Date","Time"))
 
 
-with(melted, plot(DT,value, ylab = "Energy sub metering", pch = NA, xlab = NA, type = n) )  ## plot with no data
-lines(melted$DT[melted$variable == "Sub_metering_1"], melted$value[melted$variable == "Sub_metering_1"], col = "black") 
-lines(melted$DT[melted$variable == "Sub_metering_2"], melted$value[melted$variable == "Sub_metering_2"], col = "red") 
-lines(melted$DT[melted$variable == "Sub_metering_3"], melted$value[melted$variable == "Sub_metering_3"], col = "blue") 
+with(melted, plot(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S"), value, ylab = "Energy sub metering", pch = NA, xlab = NA , type = "n"))   ## plot with no data
+lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_1"], melted$value[melted$variable == "Sub_metering_1"], col = "black")
+lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_2"], melted$value[melted$variable == "Sub_metering_2"], col = "red") 
+lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_3"], melted$value[melted$variable == "Sub_metering_3"], col = "blue") 
 
-  
 
 dev.copy(png, file = "plot2.png")   ## copy to png file
 dev.off()
