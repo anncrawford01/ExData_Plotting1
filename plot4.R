@@ -30,12 +30,26 @@ twodays$DT <- strptime(paste(twodays$Date, twodays$Time),"%Y-%m-%d %H:%M:%S")  #
 m1 <- select(twodays, Date, Time, Sub_metering_1, Sub_metering_2, Sub_metering_3)
 melted <- melt(m1, id.vars=c("Date","Time"))
 
+par(mfrow = c(2,2))
+## first plot
+with(twodays,     plot(DT,Global_active_power, ylab = "Global Active Power(killowatts)", pch = NA, xlab = NA) )
+lines(twodays$DT,twodays$Global_active_power)
 
+## second plot
+with(twodays, plot(DT,Voltage, ylab = "Voltage", pch = NA, xlab = "datetime") )
+lines(twodays$DT,twodays$Voltage)
+
+## third plot
 with(melted, plot(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S"), value, ylab = "Energy sub metering", pch = NA, xlab = NA , type = "n"))   ## plot with no data
 lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_1"], melted$value[melted$variable == "Sub_metering_1"], col = "black")
 lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_2"], melted$value[melted$variable == "Sub_metering_2"], col = "red") 
 lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_3"], melted$value[melted$variable == "Sub_metering_3"], col = "blue") 
 legend("topright" , pch = 2, col= c("black", "red", "blue"), legend = c("Sub_metering_1","Sub_metering_2", "Sub_metering_3"))
 
-dev.copy(png, file = "plot3.png")   ## copy to png file
-dev.off()
+## 4th plot
+with(twodays, plot(DT,Global_reactive_power, pch = NA, xlab = "datetime") )
+lines(twodays$DT,twodays$Global_reactive_power)
+
+
+##dev.copy(png, file = "plot4.png")   ## copy to png file
+##dev.off()
