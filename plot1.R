@@ -1,4 +1,11 @@
-## plot 1 ##
+## Plot1
+#
+# download file, read, plot and copy to Plot1.png
+## Dependencies 
+##library(dplyr)
+
+##http://www.r-graph-gallery.com/
+#############################################
 
 zipurl <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
 if(!file.exists("./data")) {dir.create("./data")}

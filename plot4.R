@@ -1,4 +1,13 @@
+## Plot4
+#
+# download file, read, plot 4 plots in 2 columns and copy to Plot4.png
+## Dependencies 
+##library(dplyr)
+##install.packages('reshape2')
+##library(reshape2)
 
+##http://www.r-graph-gallery.com/
+#############################
 zipurl <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
 if(!file.exists("./data")) {dir.create("./data")}
 zipfile <- "./data/electricpower.zip"
@@ -39,7 +48,7 @@ lines(twodays$DT,twodays$Global_active_power)
 with(twodays, plot(DT,Voltage, ylab = "Voltage", pch = NA, xlab = "datetime") )
 lines(twodays$DT,twodays$Voltage)
 
-## third plot
+## third plot ## melted does not work with "POSIXlt" DT
 with(melted, plot(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S"), value, ylab = "Energy sub metering", pch = NA, xlab = NA , type = "n"))   ## plot with no data
 lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_1"], melted$value[melted$variable == "Sub_metering_1"], col = "black")
 lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_2"], melted$value[melted$variable == "Sub_metering_2"], col = "red") 
