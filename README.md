@@ -1,3 +1,8 @@
+
+## My Assignment was added to the cloned repository ##
+It contains 4 R scripts named plot1.R, plot2.R, plot3.R and plot4.R with 
+the respective png plots.
+
 ## Introduction
 
 This assignment uses data from
