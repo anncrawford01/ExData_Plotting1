@@ -39,7 +39,7 @@ twodays$DT <- strptime(paste(twodays$Date, twodays$Time),"%Y-%m-%d %H:%M:%S")  #
 m1 <- select(twodays, Date, Time, Sub_metering_1, Sub_metering_2, Sub_metering_3)
 melted <- melt(m1, id.vars=c("Date","Time"))
 
-par(mfrow = c(2,2), mar = c(4,3,4, 2))
+par(mfrow = c(2,2), mar = c(4,4,4, 2))
 ## first plot
 with(twodays,     plot(DT,Global_active_power, ylab = "Global Active Power(killowatts)", pch = NA, xlab = NA) )
 lines(twodays$DT,twodays$Global_active_power)
@@ -53,7 +53,7 @@ with(melted, plot(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S"),
 lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_1"], melted$value[melted$variable == "Sub_metering_1"], col = "black")
 lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_2"], melted$value[melted$variable == "Sub_metering_2"], col = "red") 
 lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_3"], melted$value[melted$variable == "Sub_metering_3"], col = "blue") 
-legend("topright" , lty = 1, col= c("black", "red", "blue"), legend = c("Sub_metering_1","Sub_metering_2", "Sub_metering_3"))
+legend("topright" , lty = 1, col= c("black", "red", "blue"), legend = c("Sub_metering_1","Sub_metering_2", "Sub_metering_3"), rect(5,10))
 
 ## 4th plot
 with(twodays, plot(DT,Global_reactive_power, pch = NA, xlab = "datetime") )

@@ -42,11 +42,17 @@ m1 <- select(twodays, Date, Time, Sub_metering_1, Sub_metering_2, Sub_metering_3
 melted <- melt(m1, id.vars=c("Date","Time"))
 
 
+##  pdf to prevent legend truncation
+# get "extremes of the user coordinates of the plotting region." 
+par("usr")     
+# "plotting clipped to figure region"  https://stat.ethz.ch/pipermail/r-help/2002-November/026862.html
+par(xpd = TRUE)
+
 with(melted, plot(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S"), value, ylab = "Energy sub metering", pch = NA, xlab = NA , type = "n"))   ## plot with no data
 lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_1"], melted$value[melted$variable == "Sub_metering_1"], col = "black")
 lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_2"], melted$value[melted$variable == "Sub_metering_2"], col = "red") 
 lines(strptime(paste(melted$Date, melted$Time),"%Y-%m-%d %H:%M:%S")[melted$variable == "Sub_metering_3"], melted$value[melted$variable == "Sub_metering_3"], col = "blue") 
-legend("topright" , lty = 1, col= c("black", "red", "blue"), legend = c("Sub_metering_1","Sub_metering_2", "Sub_metering_3"))
+legend("topright" , lty = 1, col= c("black", "red", "blue"), legend = c("Sub_metering_1","Sub_metering_2", "Sub_metering_3"), rect(5,15))  
 
 dev.copy(png, file = "plot3.png")   ## copy to png file
 dev.off()
